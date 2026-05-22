@@ -1,6 +1,6 @@
 # 🦞 ClawTutor — Personalized AI Learning Assistant on Telegram
 
-ClawTutor is a Dockerized Telegram-based AI learning assistant built using an OpenClaw-style skill architecture and Ollama local LLMs.
+ClawTutor is a Dockerized OpenClaw-powered Telegram AI learning assistant built using Ollama local LLMs.
 
 The assistant helps users:
 - Prepare for technical interviews
@@ -8,35 +8,35 @@ The assistant helps users:
 - Receive personalized learning assistance
 - Store and manage learning preferences persistently
 
-The bot automatically onboards users through Telegram, stores their preferences, and uses those preferences for personalized future interactions.
+The bot automatically onboards users through Telegram, stores user preferences, and uses those preferences for personalized future interactions.
 
 ---
 
-#  Features
+# Features
 
-✅ Telegram onboarding assistant  
-✅ Persistent user profile storage  
-✅ Dockerized deployment  
-✅ Ollama local AI integration  
-✅ Skill-based architecture  
-✅ Personalized daily quiz workflow  
-✅ OpenClaw-compatible configuration  
-✅ Local-first privacy-focused setup  
+- Telegram onboarding assistant
+- Persistent user profile storage
+- Dockerized deployment
+- Ollama local AI integration
+- OpenClaw-based architecture
+- Personalized daily quiz workflow
+- Local-first privacy-focused setup
+- Persistent memory storage
 
 ---
 
-#  Tech Stack
+# Tech Stack
 
 - Node.js
 - Docker & Docker Compose
 - Telegram Bot API
 - Ollama
+- OpenClaw
 - JSON-based persistent storage
-- OpenClaw-style skills architecture
 
 ---
 
-#  Project Structure
+# Project Structure
 
 ```text
 learning-assistant/
@@ -57,9 +57,11 @@ learning-assistant/
 └── README.md
 ```
 
+The `config/openclaw.json` file contains the OpenClaw gateway, Telegram plugin, Ollama model, and tool configuration required for the assistant.
+
 ---
 
-# ⚙️ Environment Variables
+# Environment Variables
 
 Create a `.env` file in the project root.
 
@@ -72,7 +74,7 @@ OLLAMA_HOST=http://ollama:11434
 
 ---
 
-#  Installation & Setup
+# Installation & Setup
 
 ## 1. Clone Repository
 
@@ -83,9 +85,9 @@ cd learning-assistant
 
 ---
 
-## 2. Start Ollama
+## 2. Install Ollama
 
-Install Ollama:
+Download Ollama:
 
 https://ollama.com/download
 
@@ -95,7 +97,7 @@ Pull required model:
 ollama pull llama3.2:3b
 ```
 
-Verify:
+Verify installed models:
 
 ```bash
 ollama list
@@ -111,7 +113,7 @@ docker-compose up -d --build
 
 ---
 
-## 4. Verify Containers
+## 4. Verify Running Containers
 
 ```bash
 docker ps
@@ -130,7 +132,7 @@ Expected containers:
 docker logs -f clawtutor-openclaw
 ```
 
-Expected:
+Expected output:
 
 ```text
 ClawTutor Bot Started
@@ -138,7 +140,7 @@ ClawTutor Bot Started
 
 ---
 
-# 🤖 Telegram Usage
+# Telegram Usage
 
 1. Open Telegram
 2. Search for your configured bot
@@ -166,7 +168,27 @@ The collected preferences are stored persistently.
 
 ---
 
-#  Persistent Memory
+# Onboarding Trigger Design
+
+The onboarding flow is triggered automatically when a Telegram user sends their first message to the bot.
+
+The system checks whether a stored profile exists for the user:
+
+```text
+user_profile_{{user.id}}
+```
+
+If no profile exists, the `user-onboarding` skill is automatically executed.
+
+This approach was chosen because:
+- It is simple and reliable
+- No external webhook infrastructure is required
+- It integrates naturally with Telegram polling
+- It works well for local Docker deployments
+
+---
+
+# Persistent Memory
 
 User profiles are stored locally.
 
@@ -195,7 +217,7 @@ docker exec -it clawtutor-openclaw ls /data/memory
 
 ---
 
-#  Skills
+# Skills
 
 ## 1. user-onboarding
 
@@ -228,7 +250,7 @@ skills/daily-quiz/SKILL.md
 
 ---
 
-#  Daily Quiz Workflow
+# Daily Quiz Workflow
 
 A cron job named:
 
@@ -238,7 +260,7 @@ nightly-tech-brief
 
 is configured to generate a personalized daily technical brief workflow.
 
-Example cron verification:
+Verify cron job:
 
 ```bash
 openclaw cron list
@@ -246,7 +268,23 @@ openclaw cron list
 
 ---
 
-# 🐳 Docker Services
+# Daily Tech Brief Format
+
+The generated daily brief contains:
+
+- 5 personalized interview questions
+- 3–5 technical tidbits
+- Domain-specific learning content
+- Difficulty tailored to the user's experience level
+
+The workflow uses:
+- Stored user preferences
+- Web search
+- Personalized skill prompts
+
+---
+
+# Docker Services
 
 ## ClawTutor Bot
 
@@ -272,7 +310,7 @@ Port:
 
 ---
 
-#  Privacy & Local AI
+# Privacy & Local AI
 
 - No cloud database required
 - User data stored locally
@@ -281,7 +319,7 @@ Port:
 
 ---
 
-#  Useful Commands
+# Useful Commands
 
 ## Start Containers
 
@@ -331,7 +369,7 @@ ollama list
 
 ---
 
-#  openclaw.json Example
+# openclaw.json Example
 
 ```json
 {
@@ -351,17 +389,16 @@ ollama list
     }
   },
 
-  "agents": {
-    "defaults": {
-      "model": "ollama/llama3.2:3b"
-    }
+  "llm": {
+    "provider": "ollama",
+    "model": "llama3.2:3b"
   }
 }
 ```
 
 ---
 
-#  .env.example
+# .env.example
 
 ```env
 TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
@@ -370,7 +407,7 @@ OLLAMA_HOST=http://ollama:11434
 
 ---
 
-#  .gitignore
+# .gitignore
 
 ```gitignore
 node_modules/
@@ -385,7 +422,7 @@ data/
 
 ---
 
-#  Future Improvements
+# Future Improvements
 
 - Real-time daily quiz delivery
 - Smarter personalized learning
@@ -396,7 +433,7 @@ data/
 
 ---
 
-#  Author
+# Author
 
 Built as part of an AI Automation & OpenClaw workflow project.
 
