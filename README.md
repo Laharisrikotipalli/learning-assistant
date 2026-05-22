@@ -13,7 +13,7 @@ The bot automatically onboards users through Telegram, stores user preferences, 
 ---
 
 # Architecture
-┌─────────────────────┐
+                ┌─────────────────────┐
                 │     Telegram User   │
                 └─────────┬───────────┘
                           │
