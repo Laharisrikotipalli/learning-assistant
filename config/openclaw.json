@@ -1,0 +1,38 @@
+{
+  "agent": {
+    "name": "StudyBuddyBot",
+    "description": "A personalized daily tech brief and interview prep assistant delivered via Telegram."
+  },
+  "llm": {
+    "provider": "ollama",
+    "model": "llama3:8b",
+    "options": {
+      "temperature": 0.7,
+      "num_ctx": 4096
+    }
+  },
+  "plugins": {
+    "entries": {
+      "telegram": {
+        "enabled": true,
+        "package": "@openclaw/plugin-telegram",
+        "config": {
+          "botToken": "${env.TELEGRAM_BOT_TOKEN}"
+        }
+      }
+    }
+  },
+  "tools": {
+    "web_search": {
+      "enabled": true,
+      "provider": "duckduckgo"
+    },
+    "memory_store": {
+      "enabled": true,
+      "persistPath": "/data/memory"
+    }
+  },
+  "skills": {
+    "directory": "/app/skills"
+  }
+}
