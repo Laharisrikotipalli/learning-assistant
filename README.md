@@ -12,6 +12,39 @@ The bot automatically onboards users through Telegram, stores user preferences, 
 
 ---
 
+# Architecture
+┌─────────────────────┐
+                │     Telegram User   │
+                └─────────┬───────────┘
+                          │
+                          ▼
+                ┌─────────────────────┐
+                │ Telegram Bot API    │
+                └─────────┬───────────┘
+                          │
+                          ▼
+                ┌─────────────────────┐
+                │ OpenClaw Gateway    │
+                │                     │
+                │ - Session Handling  │
+                │ - Skill Routing     │
+                │ - Message Processing│
+                │ - Cron Workflows    │
+                └─────────┬───────────┘
+                          │
+          ┌───────────────┼────────────────┐
+          ▼               ▼                ▼
+ ┌────────────────┐ ┌──────────────┐ ┌────────────────┐
+ │ user-onboarding│ │ daily-quiz   │ │ memory_store   │
+ │ skill          │ │ skill        │ │                │
+ └────────────────┘ └──────────────┘ └────────────────┘
+                          │
+                          ▼
+                ┌─────────────────────┐
+                │ Ollama Local LLM    │
+                │ llama3.2:3b         │
+                └─────────────────────┘
+
 # Features
 
 - Telegram onboarding assistant
